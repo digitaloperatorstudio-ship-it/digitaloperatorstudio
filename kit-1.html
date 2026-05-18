@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Feedback Synthesiser: Setup Guide — Digital Operator Studio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Mono:wght@400;500&family=Lora:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --ink: #0D0D0D;
+    --paper: #F5F0E8;
+    --accent: #C8401A;
+    --mid: #6B6560;
+    --rule: rgba(13,13,13,0.15);
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'Lora', Georgia, serif;
+    font-size: 16px;
+    line-height: 1.7;
+    overflow-x: hidden;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 1000;
+    opacity: 0.4;
+  }
+
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.25rem 2.5rem;
+    border-bottom: 1px solid var(--rule);
+    background: rgba(245,240,232,0.92);
+    backdrop-filter: blur(8px);
+  }
+
+  .nav-logo {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.1rem;
+    letter-spacing: 0.12em;
+    color: var(--ink);
+    text-decoration: none;
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 2rem;
+    list-style: none;
+  }
+
+  .nav-links a {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--mid);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  .nav-links a:hover { color: var(--ink); }
+
+  /* ── PAGE LAYOUT ── */
+  .page {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 7rem 2.5rem 6rem;
+  }
+
+  /* ── HEADER ── */
+  .page-eyebrow {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .page-eyebrow::after {
+    content: '';
+    width: 40px;
+    height: 1px;
+    background: var(--accent);
+  }
+
+  .page-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(2.5rem, 6vw, 4.5rem);
+    line-height: 0.95;
+    letter-spacing: 0.02em;
+    margin-bottom: 1.5rem;
+  }
+
+  .page-intro {
+    font-size: 1.1rem;
+    color: var(--mid);
+    line-height: 1.75;
+    margin-bottom: 3rem;
+    padding-bottom: 2.5rem;
+    border-bottom: 1px solid var(--rule);
+  }
+
+  /* ── CTA BUTTON ── */
+  .btn-primary {
+    display: inline-block;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.8rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--paper);
+    background: var(--ink);
+    padding: 0.9rem 2rem;
+    text-decoration: none;
+    border: 2px solid var(--ink);
+    transition: background 0.2s, border-color 0.2s;
+    margin-bottom: 3rem;
+    display: inline-block;
+  }
+
+  .btn-primary:hover {
+    background: var(--accent);
+    border-color: var(--accent);
+  }
+
+  /* ── SECTIONS ── */
+  .guide-section {
+    margin-bottom: 3rem;
+    padding-bottom: 3rem;
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .guide-section:last-of-type {
+    border-bottom: none;
+  }
+
+  .section-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 0.75rem;
+    display: block;
+  }
+
+  h2 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 2rem;
+    letter-spacing: 0.02em;
+    margin-bottom: 1rem;
+    line-height: 1;
+  }
+
+  h3 {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.8rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink);
+    margin: 1.75rem 0 0.75rem;
+  }
+
+  p {
+    color: var(--mid);
+    margin-bottom: 1rem;
+    line-height: 1.75;
+  }
+
+  p:last-child { margin-bottom: 0; }
+
+  a { color: var(--accent); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+
+  /* ── STEPS ── */
+  .steps {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    border: 1px solid var(--rule);
+    border-radius: 10px;
+    overflow: hidden;
+    margin-top: 1rem;
+  }
+
+  .step {
+    display: flex;
+    gap: 1.25rem;
+    padding: 1rem 1.25rem;
+    border-bottom: 1px solid var(--rule);
+    background: rgba(255,255,255,0.5);
+    align-items: flex-start;
+  }
+
+  .step:last-child { border-bottom: none; }
+
+  .step-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.5rem;
+    color: var(--accent);
+    line-height: 1;
+    flex-shrink: 0;
+    width: 28px;
+    padding-top: 2px;
+  }
+
+  .step-text {
+    font-size: 0.95rem;
+    color: var(--mid);
+    line-height: 1.6;
+    margin: 0;
+  }
+
+  .step-text strong { color: var(--ink); font-weight: 500; }
+  .step-text code { font-family: 'DM Mono', monospace; font-size: 0.8rem; background: rgba(13,13,13,0.06); padding: 1px 5px; border-radius: 3px; }
+
+  /* ── TABLE ── */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1rem 0;
+    font-size: 0.9rem;
+  }
+
+  th {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--mid);
+    text-align: left;
+    padding: 0.6rem 1rem;
+    border-bottom: 2px solid var(--rule);
+  }
+
+  td {
+    padding: 0.7rem 1rem;
+    border-bottom: 1px solid var(--rule);
+    color: var(--mid);
+    vertical-align: top;
+    line-height: 1.5;
+  }
+
+  td:first-child { color: var(--ink); font-weight: 500; white-space: nowrap; }
+  td code { font-family: 'DM Mono', monospace; font-size: 0.78rem; background: rgba(13,13,13,0.06); padding: 1px 5px; border-radius: 3px; }
+  tr:last-child td { border-bottom: none; }
+
+  .table-wrap {
+    border: 1px solid var(--rule);
+    border-radius: 8px;
+    overflow: hidden;
+    margin: 1rem 0;
+  }
+
+  /* ── OUTPUT DEFINITIONS ── */
+  .def-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    border: 1px solid var(--rule);
+    border-radius: 10px;
+    overflow: hidden;
+    margin-top: 1rem;
+  }
+
+  .def-item {
+    padding: 1rem 1.25rem;
+    border-bottom: 1px solid var(--rule);
+    background: rgba(255,255,255,0.5);
+  }
+
+  .def-item:last-child { border-bottom: none; }
+
+  .def-term {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--ink);
+    margin-bottom: 4px;
+  }
+
+  .def-desc {
+    font-size: 0.95rem;
+    color: var(--mid);
+    line-height: 1.6;
+    margin: 0;
+  }
+
+  /* ── TIPS ── */
+  .tips {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-top: 1rem;
+  }
+
+  .tip {
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+    font-size: 0.95rem;
+    color: var(--mid);
+    line-height: 1.6;
+  }
+
+  .tip::before {
+    content: '→';
+    color: var(--accent);
+    flex-shrink: 0;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.8rem;
+    margin-top: 2px;
+  }
+
+  /* ── WHAT'S NEXT ── */
+  .next-card {
+    background: var(--ink);
+    color: var(--paper);
+    padding: 2rem;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 2rem;
+    flex-wrap: wrap;
+    margin-top: 1rem;
+  }
+
+  .next-card p {
+    color: rgba(245,240,232,0.7);
+    margin: 0;
+    font-size: 0.95rem;
+  }
+
+  .next-card-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.5rem;
+    letter-spacing: 0.04em;
+    margin-bottom: 4px;
+    color: var(--paper);
+  }
+
+  .btn-ghost-light {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.75rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--paper);
+    border: 1.5px solid rgba(245,240,232,0.3);
+    padding: 0.7rem 1.5rem;
+    text-decoration: none;
+    transition: border-color 0.2s;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  .btn-ghost-light:hover {
+    border-color: var(--paper);
+    text-decoration: none;
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    padding: 2rem 2.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    flex-wrap: wrap;
+    border-top: 1px solid var(--rule);
+  }
+
+  .footer-logo {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1rem;
+    letter-spacing: 0.12em;
+    color: var(--ink);
+  }
+
+  .footer-copy {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.06em;
+    color: var(--mid);
+  }
+
+  @media (max-width: 768px) {
+    nav { padding: 1rem 1.25rem; }
+    .nav-links { display: none; }
+    .page { padding: 6rem 1.25rem 4rem; }
+    footer { flex-direction: column; align-items: flex-start; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="/" class="nav-logo">Digital Operator Studio</a>
+  <ul class="nav-links">
+    <li><a href="/#kit-1">Kit 1</a></li>
+    <li><a href="/#how">How it works</a></li>
+    <li><a href="/#about">About</a></li>
+    <li><a href="/#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<div class="page">
+
+  <p class="page-eyebrow">Kit 01</p>
+  <h1 class="page-title">Feedback<br>Synthesiser</h1>
+  <p class="page-intro">Everything you need to get up and running. The Feedback Synthesiser takes raw customer feedback from any source and returns a structured, prioritised analysis in under 30 seconds.</p>
+
+  <a href="https://claude.ai/public/artifacts/a30c03ba-0879-4120-bb3b-a8b7fe0539f7" target="_blank" class="btn-primary">Open the tool in Claude →</a>
+
+  <!-- WHAT YOU NEED -->
+  <div class="guide-section">
+    <span class="section-label">Before you start</span>
+    <h2>What you need</h2>
+    <div class="tips">
+      <p class="tip">A Claude account — Pro or higher is recommended; large feedback sets can hit limits on free plans</p>
+      <p class="tip">Feedback data as a CSV file, or text you can paste directly</p>
+      <p class="tip">Optionally: contextual columns in your CSV like MRR, plan tier, account age, or customer segment</p>
+    </div>
+  </div>
+
+  <!-- GETTING STARTED -->
+  <div class="guide-section">
+    <span class="section-label">Getting started</span>
+    <h2>Two ways to use it</h2>
+
+    <h3>Option A: Use it directly in Claude</h3>
+    <div class="steps">
+      <div class="step"><span class="step-num">1</span><p class="step-text">Open the <a href="https://claude.ai/public/artifacts/a30c03ba-0879-4120-bb3b-a8b7fe0539f7" target="_blank">Feedback Synthesiser</a> in Claude</p></div>
+      <div class="step"><span class="step-num">2</span><p class="step-text">Add optional business context — e.g. <em>"Solo founder, 40 paying customers, early-stage invoicing tool"</em></p></div>
+      <div class="step"><span class="step-num">3</span><p class="step-text">Upload your CSV or paste your feedback text</p></div>
+      <div class="step"><span class="step-num">4</span><p class="step-text">If using CSV: select which column contains the feedback, then tick any context columns</p></div>
+      <div class="step"><span class="step-num">5</span><p class="step-text">Click <strong>Analyse feedback</strong> and wait ~10-20 seconds</p></div>
+      <div class="step"><span class="step-num">6</span><p class="step-text">Review the output, then export or copy as needed</p></div>
+    </div>
+
+    <h3>Option B: Set up a Claude Project (recommended)</h3>
+    <p>Setting up a Claude Project lets you pre-configure the tool with your business context so you don't need to re-enter it each time.</p>
+    <div class="steps">
+      <div class="step"><span class="step-num">1</span><p class="step-text">Go to <a href="https://claude.ai/projects" target="_blank">claude.ai/projects</a> and create a new project</p></div>
+      <div class="step"><span class="step-num">2</span><p class="step-text">Name it something like <em>Feedback Synthesiser: [Your Company]</em></p></div>
+      <div class="step"><span class="step-num">3</span><p class="step-text">Paste the system prompt companion into the Project instructions field and fill in the bracketed sections</p></div>
+      <div class="step"><span class="step-num">4</span><p class="step-text">Add the Feedback Synthesiser artifact to this project</p></div>
+      <div class="step"><span class="step-num">5</span><p class="step-text">Run all future analyses from inside this project</p></div>
+    </div>
+  </div>
+
+  <!-- PREPARING YOUR CSV -->
+  <div class="guide-section">
+    <span class="section-label">Data prep</span>
+    <h2>Preparing your CSV</h2>
+    <p>The tool will auto-detect common column names, but it works best when your columns match these patterns:</p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Column type</th><th>Examples it recognises</th></tr></thead>
+        <tbody>
+          <tr><td>Feedback text</td><td><code>feedback</code>, <code>comment</code>, <code>review</code>, <code>response</code>, <code>note</code></td></tr>
+          <tr><td>MRR / revenue</td><td><code>mrr</code>, <code>revenue</code>, <code>arr</code>, <code>ltv</code></td></tr>
+          <tr><td>Plan / tier</td><td><code>plan</code>, <code>tier</code>, <code>status</code></td></tr>
+          <tr><td>Account age</td><td><code>account_age</code>, <code>tenure</code>, <code>days</code>, <code>months</code></td></tr>
+          <tr><td>Segment</td><td><code>segment</code>, <code>cohort</code>, <code>type</code>, <code>size</code></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>If your column names don't match, you can manually select them in the column picker step.</p>
+    <div class="tips" style="margin-top:1rem;">
+      <p class="tip">One row per feedback item works best</p>
+      <p class="tip">You don't need to clean the text — the model handles messy punctuation and formatting fine</p>
+      <p class="tip">10-100 items is the sweet spot; very small sets (under 5) produce weak patterns, very large sets (500+) may hit token limits</p>
+    </div>
+  </div>
+
+  <!-- READING THE OUTPUT -->
+  <div class="guide-section">
+    <span class="section-label">Understanding results</span>
+    <h2>Reading the output</h2>
+    <div class="def-list">
+      <div class="def-item">
+        <p class="def-term">Top signal</p>
+        <p class="def-desc">The single most important thing the feedback reveals. Good for sharing in a Slack update or kicking off a team discussion.</p>
+      </div>
+      <div class="def-item">
+        <p class="def-term">Recommended focus</p>
+        <p class="def-desc">What to do first, based on frequency and impact. Treat this as a starting point, not a directive.</p>
+      </div>
+      <div class="def-item">
+        <p class="def-term">Theme cards</p>
+        <p class="def-desc">Each card shows the problem customers are experiencing, evidence from the feedback, and a specific recommendation. High-priority themes appear first.</p>
+      </div>
+      <div class="def-item">
+        <p class="def-term">Segment signal (on a theme card)</p>
+        <p class="def-desc">Only appears when the contextual data shows a meaningful pattern for that theme — e.g. "This issue is concentrated among accounts under 60 days old." Omitted if no strong pattern exists.</p>
+      </div>
+      <div class="def-item">
+        <p class="def-term">Segment insights (at the bottom)</p>
+        <p class="def-desc">A standalone section summarising the most important cross-cutting patterns across your customer segments. Only appears when the data supports it.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- EXPORTING -->
+  <div class="guide-section">
+    <span class="section-label">Exporting</span>
+    <h2>Getting your results out</h2>
+    <div class="tips">
+      <p class="tip"><strong style="color:var(--ink)">Copy as markdown</strong> — pastes cleanly into Notion, Linear, Slack, or any markdown editor</p>
+    </div>
+  </div>
+
+  <!-- TROUBLESHOOTING -->
+  <div class="guide-section">
+    <span class="section-label">Troubleshooting</span>
+    <h2>Common issues</h2>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Problem</th><th>Likely cause</th><th>Fix</th></tr></thead>
+        <tbody>
+          <tr><td>JSON parse error</td><td>Response cut off mid-output</td><td>Reduce feedback volume, or split into batches</td></tr>
+          <tr><td>No segment insights</td><td>Not enough contextual data, or patterns aren't strong enough</td><td>Add more context columns, or accept that this batch doesn't have clear segment patterns</td></tr>
+          <tr><td>Wrong column auto-selected</td><td>Column name not recognised</td><td>Manually select the correct column in the picker</td></tr>
+          <tr><td>Analysis feels generic</td><td>No business context provided</td><td>Add context in the text field, or set up a Claude Project with the system prompt</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- WHAT'S NEXT -->
+  <div class="guide-section">
+    <span class="section-label">What's next</span>
+    <h2>More kits coming</h2>
+    <div class="next-card">
+      <div>
+        <p class="next-card-title">Digital Operator Studio</p>
+        <p>More focused AI tools for solo founders — built around the jobs that actually need doing.</p>
+      </div>
+      <a href="/" class="btn-ghost-light">Back to the site →</a>
+    </div>
+  </div>
+
+  <p style="font-size:0.85rem;color:var(--mid);">Questions or feedback? <a href="/#contact">Get in touch.</a></p>
+
+</div>
+
+<footer>
+  <span class="footer-logo">Digital Operator Studio</span>
+  <span class="footer-copy">© 2025 Digital Operator Studio. Built with Claude.</span>
+</footer>
+
+</body>
+</html>
