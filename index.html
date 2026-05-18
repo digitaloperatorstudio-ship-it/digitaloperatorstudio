@@ -599,7 +599,7 @@
     </div>
   </div>
   <div class="kit-cta-row reveal">
-    <a href="https://claude.ai" target="_blank" class="btn-primary">Open in Claude →</a>
+    <a href="https://claude.ai/public/artifacts/e9d0c976-7fa7-4063-aa89-536e33b50b48" target="_blank" class="btn-primary">Open in Claude →</a>
     <span class="kit-free-tag">Free · Bring your own Claude account</span>
   </div>
 </section>
@@ -656,7 +656,7 @@
       <h2 class="contact-heading">Got a<br><em>question?</em></h2>
       <p style="font-size:1.05rem;color:var(--mid);line-height:1.75;margin-top:1.5rem;">Feedback on the tools, ideas for new kits, or just want to say hello - use the form or find us when the site is fully live.</p>
     </div>
-    <form class="contact-form reveal" onsubmit="handleSubmit(event)">
+    <form class="contact-form reveal" onsubmit="handleSubmit(event)" action="https://formspree.io/f/xojbqnbn" method="POST">
       <div class="form-field">
         <label for="name">Name</label>
         <input type="text" id="name" name="name" placeholder="Your name" required>
@@ -694,11 +694,26 @@
   }, { threshold: 0.12 });
   reveals.forEach(el => observer.observe(el));
 
-  // Form stub
-  function handleSubmit(e) {
+  // Form - Formspree
+  async function handleSubmit(e) {
     e.preventDefault();
-    document.getElementById('form-confirm').style.display = 'block';
-    e.target.reset();
+    const form = e.target;
+    const data = new FormData(form);
+    try {
+      const res = await fetch(form.action, {
+        method: "POST",
+        body: data,
+        headers: { Accept: "application/json" }
+      });
+      if (res.ok) {
+        document.getElementById('form-confirm').style.display = 'block';
+        form.reset();
+      } else {
+        alert("Something went wrong - please try again.");
+      }
+    } catch {
+      alert("Something went wrong - please try again.");
+    }
   }
 </script>
 </body>
