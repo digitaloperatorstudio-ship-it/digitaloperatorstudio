@@ -543,7 +543,7 @@
 <nav>
   <a href="#" class="nav-logo">Digital Operator Studio</a>
   <ul class="nav-links">
-    <li><a href="/kit-1">Kit 1</a></li>
+    <li><a href="/kit-1">Kit 01: Feedback</a></li>
     <li><a href="#how">How it works</a></li>
     <li><a href="#about">About</a></li>
     <li><a href="#contact">Contact</a></li>
@@ -557,7 +557,7 @@
   <h1 class="hero-title">AI tools<br>built for<br><em>operators</em></h1>
   <p class="hero-sub">Productised AI tools for solo founders and small SaaS teams. No fluff, no bloat - just focused tools that turn raw data into decisions.</p>
   <div class="hero-cta-row">
-    <a href="#kit-1" class="btn-primary">See Kit 1 →</a>
+    <a href="#kit-1" class="btn-primary">Analyze your feedback →</a>
     <span class="hero-note">Free to use · Powered by Claude</span>
   </div>
 </section>
@@ -635,16 +635,37 @@
       <h2 class="about-heading reveal">Built by an<br>operator, for<br>operators</h2>
       <p class="about-body reveal">Digital Operator Studio exists because most AI tools are built for enterprises or developers. Solo founders and small teams get the leftovers - generic chatbots and complicated platforms that need a full onboarding process before they're useful.</p>
       <p class="about-body reveal">These kits are different. Each one is designed around a specific job that founders actually need done, with a focused interface and output that's immediately usable.</p>
-      <p class="about-body reveal">A hosted version is coming to digitaloperatorstudio.com. For now, the tools run directly inside Claude — free, with no setup beyond a Claude account.</p>
+      <p class="about-body reveal">The tools run directly inside Claude - free, with no setup beyond a Claude account. More kits are in development.</p>
     </div>
     <div class="reveal">
       <div class="about-aside">
         <p class="about-aside-label">Coming up</p>
-        <div class="coming-soon-item">Hosted app on this domain</div>
         <div class="coming-soon-item">Kit 2 (in development)</div>
         <div class="coming-soon-item">Claude Project companions for each kit</div>
-        <div class="coming-soon-item">Setup guides for every tool</div>
+        <div class="coming-soon-item">More kits to follow</div>
       </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- EMAIL CAPTURE -->
+<section id="newsletter">
+  <div class="section-label">Stay in the loop</div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:center;">
+    <div class="reveal">
+      <h2 style="font-family:'Bebas Neue',sans-serif;font-size:clamp(2.5rem,5vw,4rem);line-height:0.95;letter-spacing:0.02em;margin-bottom:1rem;">New kits.<br>No noise.</h2>
+      <p style="font-size:1.05rem;color:var(--mid);line-height:1.75;">Get notified when new kits launch. No marketing emails, no weekly newsletters - just a note when something new is ready.</p>
+    </div>
+    <div class="reveal">
+      <form action="https://buttondown.com/api/emails/embed-subscribe/digitaloperatorstudio" method="post" style="display:flex;flex-direction:column;gap:1rem;">
+        <div class="form-field">
+          <label for="bd-email">Email address</label>
+          <input type="email" name="email" id="bd-email" placeholder="your@email.com" required />
+        </div>
+        <button type="submit" class="form-submit" style="align-self:flex-start;">Notify me →</button>
+        <p id="email-confirm" style="display:none;font-family:'DM Mono',monospace;font-size:0.75rem;color:var(--accent);letter-spacing:0.05em;">You're in - thanks!</p>
+      </form>
     </div>
   </div>
 </section>
