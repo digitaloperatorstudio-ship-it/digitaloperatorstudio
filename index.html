@@ -481,6 +481,32 @@
     border-color: var(--accent);
   }
 
+  /* ── FEATURED ON ── */
+  .featured-on {
+    padding: 3rem 2.5rem;
+    border-top: 1px solid var(--rule);
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    flex-wrap: wrap;
+  }
+
+  .featured-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--mid);
+    white-space: nowrap;
+  }
+
+  .featured-badges {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+  }
+
   /* ── FOOTER ── */
   footer {
     padding: 2rem 2.5rem;
@@ -535,6 +561,8 @@
     .step { border-right: none; border-bottom: 1px solid var(--rule); padding: 2rem 0; }
     .step:last-child { border-bottom: none; }
     footer { flex-direction: column; align-items: flex-start; gap: 0.5rem; }
+    .featured-on { padding: 2rem 1.25rem; flex-direction: column; align-items: flex-start; gap: 1rem; }
+    .featured-badges { gap: 1rem; }
   }
 </style>
 </head>
@@ -698,12 +726,27 @@
 </section>
 
 <!-- FOOTER -->
+<section class="featured-on">
+  <p class="featured-label">Featured on</p>
+  <div class="featured-badges">
+    <a href="https://fazier.com" target="_blank" rel="noreferrer">
+      <img src="https://fazier.com/api/v1//public/badges/launch_badges.svg?badge_type=launched&theme=neutral" alt="Fazier badge" style="height:53px;width:auto;" />
+    </a>
+    <a href="https://peerlist.io/digitaloperator/project/feedback-synthesiser" target="_blank" rel="noreferrer">
+      <img src="https://peerlist.io/api/v1/projects/embed/PRJH9OBP7DGGKM7D81GA6O8ARKKD8E?showUpvote=true&theme=light" alt="Feedback Synthesiser on Peerlist" style="height:72px;width:auto;" />
+    </a>
+    <a href="https://www.uneed.best/tool/feedback-synthesiser" target="_blank" rel="noreferrer">
+      <img src="https://www.uneed.best/EMBED3.png" alt="Featured on Uneed" style="height:53px;width:auto;" />
+    </a>
+    <a href="https://trylaunch.ai/launch/feedback-synsthesiser" target="_blank" rel="dofollow">
+      <img src="https://trylaunch.ai/badges/badge-color.png" alt="Featured on Launch" style="height:53px;width:auto;" />
+    </a>
+  </div>
+</section>
+
 <footer>
   <span class="footer-logo">Digital Operator Studio</span>
-  <div style="display:flex;align-items:center;gap:1.5rem;flex-wrap:wrap;">
-    <a href="https://fazier.com" target="_blank"><img src="https://fazier.com/api/v1//public/badges/launch_badges.svg?badge_type=launched&theme=neutral" width=120 alt="Fazier badge" /></a>
-    <span class="footer-copy">© 2025 Digital Operator Studio. Built with Claude.</span>
-  </div>
+  <span class="footer-copy">© 2025 Digital Operator Studio. Built with Claude.</span>
 </footer>
 
 <script>
