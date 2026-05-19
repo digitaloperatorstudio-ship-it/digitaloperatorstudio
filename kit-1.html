@@ -441,6 +441,46 @@
     .featured-on { padding: 2rem 1.25rem; flex-direction: column; align-items: flex-start; gap: 1rem; }
     .featured-badges { gap: 1rem; }
   }
+
+  /* ── PROMPT BLOCK ── */
+  .prompt-block {
+    position: relative;
+    margin: 1.5rem 0;
+    border: 1px solid var(--rule);
+    border-radius: 4px;
+    background: rgba(13,13,13,0.03);
+  }
+
+  .prompt-block pre {
+    margin: 0;
+    padding: 1.5rem;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.75rem;
+    line-height: 1.7;
+    color: var(--ink);
+    white-space: pre-wrap;
+    word-break: break-word;
+  }
+
+  .copy-btn {
+    position: absolute;
+    top: 0.75rem;
+    right: 0.75rem;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    background: var(--ink);
+    color: var(--paper);
+    border: none;
+    padding: 0.35rem 0.75rem;
+    border-radius: 3px;
+    cursor: pointer;
+    transition: opacity 0.15s;
+  }
+
+  .copy-btn:hover { opacity: 0.75; }
+  .copy-btn.copied { background: #2a7a4b; }
 </style>
 </head>
 <body>
@@ -494,9 +534,40 @@
     <div class="steps">
       <div class="step"><span class="step-num">1</span><p class="step-text">Go to <a href="https://claude.ai/projects" target="_blank">claude.ai/projects</a> and create a new project</p></div>
       <div class="step"><span class="step-num">2</span><p class="step-text">Name it something like <em>Feedback Synthesiser: [Your Company]</em></p></div>
-      <div class="step"><span class="step-num">3</span><p class="step-text">Paste the system prompt companion into the Project instructions field and fill in the bracketed sections</p></div>
-      <div class="step"><span class="step-num">4</span><p class="step-text">Add the Feedback Synthesiser artifact to this project</p></div>
+      <div class="step"><span class="step-num">3</span><p class="step-text">Copy the system prompt below and paste it into the Project instructions field, then fill in the bracketed sections</p></div>
+      <div class="step"><span class="step-num">4</span><p class="step-text">Open the <a href="https://claude.ai/public/artifacts/a30c03ba-0879-4120-bb3b-a8b7fe0539f7" target="_blank">Feedback Synthesiser artifact</a>, click the menu (⋯) and choose <strong>Add to Project</strong>, then select your project</p></div>
       <div class="step"><span class="step-num">5</span><p class="step-text">Run all future analyses from inside this project</p></div>
+    </div>
+  </div>
+
+  <!-- SYSTEM PROMPT -->
+  <div class="guide-section">
+    <span class="section-label">Claude Project setup</span>
+    <h2>System prompt</h2>
+    <p>Copy the prompt below and paste it into the Project instructions field when setting up your Claude Project. Fill in every section marked with [brackets] before saving — the more specific you are, the more useful the segment and recommendation outputs will be.</p>
+    <div class="prompt-block">
+      <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>
+      <pre id="system-prompt">You are a customer feedback analyst embedded in [Company Name]'s feedback review workflow. Your job is to help the team make fast, confident decisions based on what customers are actually saying.
+
+**About this business:**
+[Company Name] is a [B2B SaaS / B2C / marketplace — delete as appropriate] product serving [brief description of customer base, e.g. "small creative agencies using project management software"]. The team is [solo founder / small team of N] and reviews feedback [weekly / after each release / ad hoc].
+
+**What matters most here:**
+- [Top priority, e.g. "Retention — we care most about signals from paying customers, especially high-MRR accounts"]
+- [Second priority, e.g. "Onboarding friction — new users under 30 days are a key watch area"]
+- [Third priority if relevant, e.g. "Feature gaps — we're pre-roadmap, so specific missing features are high signal"]
+
+**How to handle this feedback:**
+When analysing feedback, weight your findings toward [e.g. "customers on paid plans over free users"] where contextual data allows. If segment data is present, surface patterns that would change what the team works on — don't mention segments just to mention them.
+
+Be direct and specific. Avoid generic recommendations like "improve communication" — push toward actionable next steps the team could act on this week. If the evidence doesn't support a strong conclusion, say so rather than overstating confidence.
+
+**Output guidance:**
+Return structured JSON as specified by the tool. Prioritise clarity over comprehensiveness — 3 sharp themes beat 6 vague ones. The output will be read by [a founder making roadmap decisions / a small team in a weekly review — adjust as needed], so write for that audience.</pre>
+    </div>
+    <div class="tips">
+      <p class="tip">You can have multiple versions of this project — one per product line or customer tier — if you analyse meaningfully different feedback pools</p>
+      <p class="tip">The more specific your priorities and customer description, the sharper the segment signal output will be</p>
     </div>
   </div>
 
@@ -618,6 +689,20 @@
   <span class="footer-logo">Digital Operator Studio</span>
   <span class="footer-copy">© 2025 Digital Operator Studio. Built with Claude.</span>
 </footer>
+
+<script>
+  function copyPrompt(btn) {
+    const text = document.getElementById('system-prompt').textContent;
+    navigator.clipboard.writeText(text).then(() => {
+      btn.textContent = 'Copied!';
+      btn.classList.add('copied');
+      setTimeout(() => {
+        btn.textContent = 'Copy';
+        btn.classList.remove('copied');
+      }, 2000);
+    });
+  }
+</script>
 
 </body>
 </html>
