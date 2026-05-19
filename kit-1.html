@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Feedback Synthesiser: Setup Guide — Digital Operator Studio</title>
+<title>Feedback Synthesiser: Setup Guide - Digital Operator Studio</title>
 <link rel="icon" type="image/x-icon" href="/favicon.ico">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -508,7 +508,7 @@
     <span class="section-label">Before you start</span>
     <h2>What you need</h2>
     <div class="tips">
-      <p class="tip">A Claude account — Pro or higher is recommended; large feedback sets can hit limits on free plans</p>
+      <p class="tip">A Claude account - Pro or higher is recommended; large feedback sets can hit limits on free plans</p>
       <p class="tip">Feedback data as a CSV file, or text you can paste directly</p>
       <p class="tip">Optionally: contextual columns in your CSV like MRR, plan tier, account age, or customer segment</p>
     </div>
@@ -522,7 +522,7 @@
     <h3>Option A: Use it directly in Claude</h3>
     <div class="steps">
       <div class="step"><span class="step-num">1</span><p class="step-text">Open the <a href="https://claude.ai/public/artifacts/a30c03ba-0879-4120-bb3b-a8b7fe0539f7" target="_blank">Feedback Synthesiser</a> in Claude</p></div>
-      <div class="step"><span class="step-num">2</span><p class="step-text">Add optional business context — e.g. <em>"Solo founder, 40 paying customers, early-stage invoicing tool"</em></p></div>
+      <div class="step"><span class="step-num">2</span><p class="step-text">Add optional business context - e.g. <em>"Solo founder, 40 paying customers, early-stage invoicing tool"</em></p></div>
       <div class="step"><span class="step-num">3</span><p class="step-text">Upload your CSV or paste your feedback text</p></div>
       <div class="step"><span class="step-num">4</span><p class="step-text">If using CSV: select which column contains the feedback, then tick any context columns</p></div>
       <div class="step"><span class="step-num">5</span><p class="step-text">Click <strong>Analyse feedback</strong> and wait ~10-20 seconds</p></div>
@@ -544,29 +544,29 @@
   <div class="guide-section">
     <span class="section-label">Claude Project setup</span>
     <h2>System prompt</h2>
-    <p>Copy the prompt below and paste it into the Project instructions field when setting up your Claude Project. Fill in every section marked with [brackets] before saving — the more specific you are, the more useful the segment and recommendation outputs will be.</p>
+    <p>Copy the prompt below and paste it into the Project instructions field when setting up your Claude Project. Fill in every section marked with [brackets] before saving - the more specific you are, the more useful the segment and recommendation outputs will be.</p>
     <div class="prompt-block">
       <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>
       <pre id="system-prompt">You are a customer feedback analyst embedded in [Company Name]'s feedback review workflow. Your job is to help the team make fast, confident decisions based on what customers are actually saying.
 
 **About this business:**
-[Company Name] is a [B2B SaaS / B2C / marketplace — delete as appropriate] product serving [brief description of customer base, e.g. "small creative agencies using project management software"]. The team is [solo founder / small team of N] and reviews feedback [weekly / after each release / ad hoc].
+[Company Name] is a [B2B SaaS / B2C / marketplace - delete as appropriate] product serving [brief description of customer base, e.g. "small creative agencies using project management software"]. The team is [solo founder / small team of N] and reviews feedback [weekly / after each release / ad hoc].
 
 **What matters most here:**
-- [Top priority, e.g. "Retention — we care most about signals from paying customers, especially high-MRR accounts"]
-- [Second priority, e.g. "Onboarding friction — new users under 30 days are a key watch area"]
-- [Third priority if relevant, e.g. "Feature gaps — we're pre-roadmap, so specific missing features are high signal"]
+- [Top priority, e.g. "Retention - we care most about signals from paying customers, especially high-MRR accounts"]
+- [Second priority, e.g. "Onboarding friction - new users under 30 days are a key watch area"]
+- [Third priority if relevant, e.g. "Feature gaps - we're pre-roadmap, so specific missing features are high signal"]
 
 **How to handle this feedback:**
-When analysing feedback, weight your findings toward [e.g. "customers on paid plans over free users"] where contextual data allows. If segment data is present, surface patterns that would change what the team works on — don't mention segments just to mention them.
+When analysing feedback, weight your findings toward [e.g. "customers on paid plans over free users"] where contextual data allows. If segment data is present, surface patterns that would change what the team works on - don't mention segments just to mention them.
 
-Be direct and specific. Avoid generic recommendations like "improve communication" — push toward actionable next steps the team could act on this week. If the evidence doesn't support a strong conclusion, say so rather than overstating confidence.
+Be direct and specific. Avoid generic recommendations like "improve communication" - push toward actionable next steps the team could act on this week. If the evidence doesn't support a strong conclusion, say so rather than overstating confidence.
 
 **Output guidance:**
-Return structured JSON as specified by the tool. Prioritise clarity over comprehensiveness — 3 sharp themes beat 6 vague ones. The output will be read by [a founder making roadmap decisions / a small team in a weekly review — adjust as needed], so write for that audience.</pre>
+Return structured JSON as specified by the tool. Prioritise clarity over comprehensiveness - 3 sharp themes beat 6 vague ones. The output will be read by [a founder making roadmap decisions / a small team in a weekly review - adjust as needed], so write for that audience.</pre>
     </div>
     <div class="tips">
-      <p class="tip">You can have multiple versions of this project — one per product line or customer tier — if you analyse meaningfully different feedback pools</p>
+      <p class="tip">You can have multiple versions of this project - one per product line or customer tier - if you analyse meaningfully different feedback pools</p>
       <p class="tip">The more specific your priorities and customer description, the sharper the segment signal output will be</p>
     </div>
   </div>
@@ -591,7 +591,7 @@ Return structured JSON as specified by the tool. Prioritise clarity over compreh
     <p>If your column names don't match, you can manually select them in the column picker step.</p>
     <div class="tips" style="margin-top:1rem;">
       <p class="tip">One row per feedback item works best</p>
-      <p class="tip">You don't need to clean the text — the model handles messy punctuation and formatting fine</p>
+      <p class="tip">You don't need to clean the text - the model handles messy punctuation and formatting fine</p>
       <p class="tip">10-100 items is the sweet spot; very small sets (under 5) produce weak patterns, very large sets (500+) may hit token limits</p>
     </div>
   </div>
@@ -615,7 +615,7 @@ Return structured JSON as specified by the tool. Prioritise clarity over compreh
       </div>
       <div class="def-item">
         <p class="def-term">Segment signal (on a theme card)</p>
-        <p class="def-desc">Only appears when the contextual data shows a meaningful pattern for that theme — e.g. "This issue is concentrated among accounts under 60 days old." Omitted if no strong pattern exists.</p>
+        <p class="def-desc">Only appears when the contextual data shows a meaningful pattern for that theme - e.g. "This issue is concentrated among accounts under 60 days old." Omitted if no strong pattern exists.</p>
       </div>
       <div class="def-item">
         <p class="def-term">Segment insights (at the bottom)</p>
@@ -629,7 +629,7 @@ Return structured JSON as specified by the tool. Prioritise clarity over compreh
     <span class="section-label">Exporting</span>
     <h2>Getting your results out</h2>
     <div class="tips">
-      <p class="tip"><strong style="color:var(--ink)">Copy as markdown</strong> — pastes cleanly into Notion, Linear, Slack, or any markdown editor</p>
+      <p class="tip"><strong style="color:var(--ink)">Copy as markdown</strong> - pastes cleanly into Notion, Linear, Slack, or any markdown editor</p>
     </div>
   </div>
 
@@ -657,7 +657,7 @@ Return structured JSON as specified by the tool. Prioritise clarity over compreh
     <div class="next-card">
       <div>
         <p class="next-card-title">Digital Operator Studio</p>
-        <p>More focused AI tools for solo founders — built around the jobs that actually need doing.</p>
+        <p>More focused AI tools for solo founders - built around the jobs that actually need doing.</p>
       </div>
       <a href="/" class="btn-ghost-light">Back to the site →</a>
     </div>
