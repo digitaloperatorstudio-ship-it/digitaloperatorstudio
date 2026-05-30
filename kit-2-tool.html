@@ -1,0 +1,712 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Launch Copy Generator — Digital Operator Studio</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Lora:ital,wght@0,400;0,600;1,400&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #0D0D0D;
+    --paper: #F5F0E8;
+    --accent: #C8401A;
+    --mid: #6B6560;
+    --rule: rgba(13,13,13,0.15);
+    --white: #ffffff;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'Lora', serif;
+    min-height: 100vh;
+  }
+
+  /* HEADER */
+  header {
+    border-bottom: 2px solid var(--ink);
+    padding: 1.25rem 2rem;
+    display: flex;
+    align-items: baseline;
+    gap: 1.5rem;
+  }
+  .brand {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1rem;
+    letter-spacing: 0.15em;
+    color: var(--mid);
+    text-decoration: none;
+  }
+  .kit-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.68rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--accent);
+  }
+
+  /* MAIN LAYOUT */
+  .layout {
+    max-width: 680px;
+    margin: 0 auto;
+    padding: 2.5rem 2rem 4rem;
+  }
+
+  /* INPUT */
+  .input-panel {
+    margin-bottom: 0;
+  }
+  .panel-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 2rem;
+    letter-spacing: 0.04em;
+    line-height: 1;
+    margin-bottom: 0.4rem;
+  }
+  .panel-sub {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.72rem;
+    color: var(--mid);
+    letter-spacing: 0.05em;
+    margin-bottom: 2rem;
+  }
+
+  .field {
+    margin-bottom: 1.4rem;
+  }
+  label {
+    display: block;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.68rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--mid);
+    margin-bottom: 0.4rem;
+  }
+  label span.required {
+    color: var(--accent);
+    margin-left: 2px;
+  }
+  input[type="text"],
+  input[type="url"],
+  input[type="email"],
+  textarea,
+  select {
+    width: 100%;
+    font-family: 'Lora', serif;
+    font-size: 0.88rem;
+    color: var(--ink);
+    background: var(--white);
+    border: 1px solid var(--rule);
+    border-bottom: 2px solid var(--ink);
+    padding: 0.6rem 0.75rem;
+    outline: none;
+    transition: border-color 0.15s;
+    -webkit-appearance: none;
+    appearance: none;
+  }
+  input:focus, textarea:focus, select:focus {
+    border-color: var(--accent);
+    border-bottom-color: var(--accent);
+  }
+  textarea { resize: vertical; min-height: 80px; line-height: 1.6; }
+  .char-count {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    color: var(--mid);
+    text-align: right;
+    margin-top: 0.25rem;
+  }
+  .char-count.over { color: var(--accent); }
+
+  .field-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+  }
+
+  .generate-btn {
+    width: 100%;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.1rem;
+    letter-spacing: 0.1em;
+    background: var(--ink);
+    color: var(--paper);
+    border: none;
+    padding: 0.9rem 1.5rem;
+    cursor: pointer;
+    transition: background 0.15s;
+    margin-top: 0.5rem;
+  }
+  .generate-btn:hover { background: var(--accent); }
+  .generate-btn:disabled { background: var(--mid); cursor: not-allowed; }
+
+  /* OUTPUT */
+  .output-panel {
+    margin-top: 3rem;
+    padding-top: 2.5rem;
+    border-top: 2px solid var(--ink);
+  }
+
+  /* EMPTY STATE - hidden in single column, no need for placeholder */
+  .empty-state { display: none !important; }
+
+  /* LOADING */
+  .loading-state {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 3rem 0;
+    gap: 1rem;
+  }
+  .loading-state.active { display: flex; }
+  .spinner {
+    width: 32px;
+    height: 32px;
+    border: 2px solid var(--rule);
+    border-top-color: var(--ink);
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .loading-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.72rem;
+    color: var(--mid);
+    letter-spacing: 0.05em;
+  }
+
+  /* OUTPUT BLOCKS */
+  .output-content { display: none; }
+  .output-content.active { display: block; }
+
+  .output-header {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 2px solid var(--ink);
+  }
+  .output-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.6rem;
+    letter-spacing: 0.04em;
+  }
+  .copy-all-btn {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    background: none;
+    border: 1px solid var(--ink);
+    color: var(--ink);
+    padding: 0.3rem 0.7rem;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .copy-all-btn:hover { background: var(--ink); color: var(--paper); }
+
+  .copy-block {
+    border-left: 3px solid var(--ink);
+    background: var(--white);
+    padding: 1rem 1.25rem;
+    margin-bottom: 1rem;
+    position: relative;
+  }
+  .copy-block h3 {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--mid);
+    margin-bottom: 0.5rem;
+  }
+  .copy-block .copy-text {
+    font-family: 'Lora', serif;
+    font-size: 0.85rem;
+    line-height: 1.65;
+    color: var(--ink);
+    white-space: pre-wrap;
+  }
+  .copy-btn {
+    position: absolute;
+    top: 0.75rem;
+    right: 0.75rem;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.62rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    background: var(--ink);
+    color: var(--paper);
+    border: none;
+    padding: 0.25rem 0.6rem;
+    cursor: pointer;
+    transition: background 0.15s;
+  }
+  .copy-btn:hover { background: var(--accent); }
+  .copy-btn.copied { background: #2E7D4F; }
+
+  .tags-wrap {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem;
+    margin-top: 0.25rem;
+  }
+  .tag {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.68rem;
+    background: var(--ink);
+    color: var(--paper);
+    padding: 0.18rem 0.5rem;
+    letter-spacing: 0.04em;
+  }
+
+  /* FOOTER BRAND */
+  .output-footer {
+    margin-top: 1.5rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--rule);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .powered-by {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    color: var(--mid);
+    letter-spacing: 0.06em;
+  }
+  .powered-by strong {
+    color: var(--ink);
+    font-weight: 500;
+  }
+  .dir-link {
+    font-family: 'Lora', serif;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--accent);
+    text-decoration: none;
+    border-bottom: 1px solid transparent;
+    transition: border-color 0.15s;
+  }
+  .dir-link:hover { border-bottom-color: var(--accent); }
+  .dir-note {
+    font-family: 'Lora', serif;
+    font-size: 0.82rem;
+    color: var(--mid);
+    line-height: 1.5;
+  }
+  .dir-free {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.62rem;
+    color: var(--mid);
+    letter-spacing: 0.06em;
+    white-space: nowrap;
+  }
+
+  /* ERROR */
+  .error-msg {
+    margin-top: 0.75rem;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.72rem;
+    color: var(--accent);
+    padding: 0.75rem 1rem;
+    border: 1px solid var(--accent);
+    margin-top: 1rem;
+    display: none;
+  }
+  .error-msg.active { display: block; }
+
+  /* MOBILE */
+  @media (max-width: 680px) {
+    .layout { padding: 1.5rem 1rem 3rem; }
+    header { padding: 1rem; }
+    .three-col { grid-template-columns: 1fr !important; }
+    .dir-row { grid-template-columns: 1fr !important; gap: 0.2rem !important; }
+    .dir-free { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <a class="brand" href="https://digitaloperatorstudio.com">Digital Operator Studio</a>
+  <span class="kit-label">Kit 02 - Launch Copy Generator</span>
+</header>
+
+<div class="layout">
+
+  <div class="input-panel">
+    <h1 class="panel-title">Launch Copy Generator</h1>
+    <p class="panel-sub">Fill in your product details. Claude writes the submission copy.</p>
+
+    <div class="fields-section" id="fields-section">
+
+      <div class="field">
+        <label>Product name <span class="required">*</span></label>
+        <input type="text" id="name" placeholder="e.g. Feedback Synthesiser" maxlength="80">
+      </div>
+
+      <div class="field">
+        <label>What does it do? <span class="required">*</span></label>
+        <textarea id="description" placeholder="Describe what your product does and who it's for. Plain language is fine, don't worry about making it sound polished." maxlength="600" oninput="updateCount(this, 'desc-count', 600)"></textarea>
+        <div class="char-count" id="desc-count">0 / 600</div>
+      </div>
+
+    <div class="three-col" style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1.4rem">
+      <div class="field" style="margin-bottom:0">
+        <label>Who is it for? <span class="required">*</span></label>
+        <input type="text" id="audience" placeholder="e.g. Solo founders">
+      </div>
+      <div class="field" style="margin-bottom:0">
+        <label>Pricing</label>
+        <select id="pricing">
+          <option value="Free">Free</option>
+          <option value="Freemium">Freemium</option>
+          <option value="Paid">Paid</option>
+          <option value="Free trial">Free trial</option>
+          <option value="One-time payment">One-time payment</option>
+        </select>
+      </div>
+      <div class="field" style="margin-bottom:0">
+        <label>Website URL</label>
+        <input type="url" id="url" placeholder="https://yoursite.com">
+      </div>
+      <div class="field" style="margin-bottom:0">
+        <label>Contact email</label>
+        <input type="email" id="email" placeholder="hello@yoursite.com">
+      </div>
+    </div>
+
+      <div class="field">
+        <label>Key differentiator <span style="color:var(--mid);font-size:0.6rem;text-transform:none;letter-spacing:0">(optional)</span></label>
+        <input type="text" id="differentiator" placeholder="What makes it different from existing tools?" maxlength="200">
+      </div>
+
+      <button class="generate-btn" id="generate-btn" onclick="generate()">Generate Copy</button>
+      <div class="error-msg" id="error-msg"></div>
+
+    </div>
+  </div>
+
+  <!-- OUTPUT -->
+  <div class="output-panel" id="output-panel" style="display:none">
+
+    <div class="loading-state" id="loading-state">
+      <div class="spinner"></div>
+      <div class="loading-label">Writing your copy...</div>
+    </div>
+
+    <div class="output-content" id="output-content">
+      <div class="output-header">
+        <div class="output-title" id="output-product-name"></div>
+        <button class="copy-all-btn" onclick="copyAll()">Copy All</button>
+      </div>
+
+      <div class="copy-block">
+        <h3>One-liner <span style="color:var(--ink);opacity:0.4">- 150 chars</span></h3>
+        <button class="copy-btn" onclick="copyBlock(this)">Copy</button>
+        <div class="copy-text" id="out-oneliner"></div>
+      </div>
+
+      <div class="copy-block">
+        <h3>Short description <span style="color:var(--ink);opacity:0.4">- 300 chars</span></h3>
+        <button class="copy-btn" onclick="copyBlock(this)">Copy</button>
+        <div class="copy-text" id="out-short"></div>
+      </div>
+
+      <div class="copy-block">
+        <h3>Full description <span style="color:var(--ink);opacity:0.4">- 600 chars</span></h3>
+        <button class="copy-btn" onclick="copyBlock(this)">Copy</button>
+        <div class="copy-text" id="out-full"></div>
+      </div>
+
+      <div class="copy-block">
+        <h3>Tags</h3>
+        <button class="copy-btn" onclick="copyTags(this)">Copy</button>
+        <div class="tags-wrap" id="out-tags"></div>
+      </div>
+
+      <div class="copy-block">
+        <h3>Key details <span style="color:var(--ink);opacity:0.4">- for form fields</span></h3>
+        <button class="copy-btn" onclick="copyBlock(this)">Copy</button>
+        <div class="copy-text" id="out-details"></div>
+      </div>
+
+      <div class="copy-block" style="border-left-color:var(--accent)">
+        <h3>Where to submit <span style="color:var(--ink);opacity:0.4">- top directories</span></h3>
+        <div style="margin-top:0.5rem;display:flex;flex-direction:column;gap:0">
+          <div class="dir-row" style="display:grid;grid-template-columns:140px 1fr auto;gap:0.5rem 1rem;align-items:baseline;padding:0.55rem 0;border-bottom:1px solid var(--rule)">
+            <a href="https://www.producthunt.com/posts/new" target="_blank" class="dir-link">Product Hunt</a>
+            <span class="dir-note">Biggest audience. Prep your launch day - upvotes in the first hour matter.</span>
+            <span class="dir-free">Free</span>
+          </div>
+          <div class="dir-row" style="display:grid;grid-template-columns:140px 1fr auto;gap:0.5rem 1rem;align-items:baseline;padding:0.55rem 0;border-bottom:1px solid var(--rule)">
+            <a href="https://theresanaiforthat.com/submit/" target="_blank" class="dir-link">There's An AI For That</a>
+            <span class="dir-note">Largest AI-specific directory. Millions of monthly visitors.</span>
+            <span class="dir-free">Free</span>
+          </div>
+          <div class="dir-row" style="display:grid;grid-template-columns:140px 1fr auto;gap:0.5rem 1rem;align-items:baseline;padding:0.55rem 0;border-bottom:1px solid var(--rule)">
+            <a href="https://www.futurepedia.io/submit-tool" target="_blank" class="dir-link">Futurepedia</a>
+            <span class="dir-note">High DA, AI-focused. Strong for long-tail discovery.</span>
+            <span class="dir-free">Free</span>
+          </div>
+          <div class="dir-row" style="display:grid;grid-template-columns:140px 1fr auto;gap:0.5rem 1rem;align-items:baseline;padding:0.55rem 0;border-bottom:1px solid var(--rule)">
+            <a href="https://www.toolify.ai/submit" target="_blank" class="dir-link">Toolify.ai</a>
+            <span class="dir-note">Large AI directory with a PH-style launch feature.</span>
+            <span class="dir-free">Free</span>
+          </div>
+          <div class="dir-row" style="display:grid;grid-template-columns:140px 1fr auto;gap:0.5rem 1rem;align-items:baseline;padding:0.55rem 0;border-bottom:1px solid var(--rule)">
+            <a href="https://www.futuretools.io/submit-a-tool" target="_blank" class="dir-link">FutureTools</a>
+            <span class="dir-note">Matt Wolfe's directory - benefits from his large YouTube audience.</span>
+            <span class="dir-free">Free</span>
+          </div>
+          <div class="dir-row" style="display:grid;grid-template-columns:140px 1fr auto;gap:0.5rem 1rem;align-items:baseline;padding:0.55rem 0;border-bottom:1px solid var(--rule)">
+            <a href="https://listmyai.net/submit" target="_blank" class="dir-link">ListMyAI</a>
+            <span class="dir-note">Fast-growing, quality-curated. Good backlink value.</span>
+            <span class="dir-free">Free</span>
+          </div>
+          <div class="dir-row" style="display:grid;grid-template-columns:140px 1fr auto;gap:0.5rem 1rem;align-items:baseline;padding:0.55rem 0;border-bottom:1px solid var(--rule)">
+            <a href="https://peerlist.io/tools/new" target="_blank" class="dir-link">Peerlist</a>
+            <span class="dir-note">Strong developer and indie founder community.</span>
+            <span class="dir-free">Free</span>
+          </div>
+          <div class="dir-row" style="display:grid;grid-template-columns:140px 1fr auto;gap:0.5rem 1rem;align-items:baseline;padding:0.55rem 0;border-bottom:1px solid var(--rule)">
+            <a href="https://fazier.com/launches/new" target="_blank" class="dir-link">Fazier</a>
+            <span class="dir-note">Provides a verified badge for your site once listed.</span>
+            <span class="dir-free">Free</span>
+          </div>
+          <div class="dir-row" style="display:grid;grid-template-columns:140px 1fr auto;gap:0.5rem 1rem;align-items:baseline;padding:0.55rem 0;border-bottom:1px solid var(--rule)">
+            <a href="https://www.uneed.best/submit-a-tool" target="_blank" class="dir-link">Uneed</a>
+            <span class="dir-note">Community-driven, supportive. Good for indie projects.</span>
+            <span class="dir-free">Free</span>
+          </div>
+          <div class="dir-row" style="display:grid;grid-template-columns:140px 1fr auto;gap:0.5rem 1rem;align-items:baseline;padding:0.55rem 0;border-bottom:1px solid var(--rule)">
+            <a href="https://dang.ai/submit" target="_blank" class="dir-link">Dang.ai</a>
+            <span class="dir-note">AI-focused, clean submission. Good for backlink profile.</span>
+            <span class="dir-free">Free</span>
+          </div>
+          <div class="dir-row" style="display:grid;grid-template-columns:140px 1fr auto;gap:0.5rem 1rem;align-items:baseline;padding:0.55rem 0;border-bottom:1px solid var(--rule)">
+            <a href="https://startupfa.me/submit" target="_blank" class="dir-link">Startupfa.me</a>
+            <span class="dir-note">Startup-focused, provides social proof badges.</span>
+            <span class="dir-free">Free</span>
+          </div>
+          <div class="dir-row" style="display:grid;grid-template-columns:140px 1fr auto;gap:0.5rem 1rem;align-items:baseline;padding:0.55rem 0">
+            <a href="https://www.saashub.com/add-product" target="_blank" class="dir-link">SaaSHub</a>
+            <span class="dir-note">Good for comparison traffic - "alternatives to X" searches.</span>
+            <span class="dir-free">Free</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="output-footer">
+        <span class="powered-by">Generated by <strong>Digital Operator Studio</strong> - digitaloperatorstudio.com</span>
+        <button class="copy-all-btn" onclick="downloadTxt()">Download .txt</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+  function updateCount(el, countId, max) {
+    const count = el.value.length;
+    const el2 = document.getElementById(countId);
+    el2.textContent = `${count} / ${max}`;
+    el2.classList.toggle('over', count > max * 0.9);
+  }
+
+  function showState(state) {
+    const outputPanel = document.getElementById('output-panel');
+    const loadingState = document.getElementById('loading-state');
+    const outputContent = document.getElementById('output-content');
+
+    if (state === 'empty') {
+      outputPanel.style.display = 'none';
+      loadingState.classList.remove('active');
+      outputContent.classList.remove('active');
+    } else if (state === 'loading') {
+      outputPanel.style.display = 'block';
+      loadingState.classList.add('active');
+      outputContent.classList.remove('active');
+    } else if (state === 'output') {
+      outputPanel.style.display = 'block';
+      loadingState.classList.remove('active');
+      outputContent.classList.add('active');
+    }
+  }
+
+  async function generate() {
+    const name = document.getElementById('name').value.trim();
+    const description = document.getElementById('description').value.trim();
+    const audience = document.getElementById('audience').value.trim();
+    const pricing = document.getElementById('pricing').value;
+    const url = document.getElementById('url').value.trim();
+    const email = document.getElementById('email').value.trim();
+    const differentiator = document.getElementById('differentiator').value.trim();
+    const errEl = document.getElementById('error-msg');
+
+    errEl.classList.remove('active');
+
+    if (!name) {
+      errEl.textContent = 'Product name is required.';
+      errEl.classList.add('active');
+      return;
+    }
+
+    if (!description && !url) {
+      errEl.textContent = 'Add a description or a URL so Claude has something to work with.';
+      errEl.classList.add('active');
+      return;
+    }
+
+    document.getElementById('generate-btn').disabled = true;
+    showState('loading');
+    document.getElementById('output-panel').scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+    const prompt = `You are a copywriter helping founders of digital products, SaaS tools, and apps write directory submission copy.
+
+Product details:
+- Name: ${name}
+- Description: ${description || 'Not provided'}
+- Audience: ${audience || 'Not provided'}
+- Pricing: ${pricing}
+- Website: ${url || 'Not provided'}
+- Contact: ${email || 'Not provided'}
+- Differentiator: ${differentiator || 'Not provided'}
+
+Generate exactly this JSON structure, nothing else, no markdown:
+{
+  "oneliner": "Under 150 characters. Punchy. What it does and who it's for. No hype words.",
+  "short": "Under 300 characters. One or two sentences. What it does, who it's for, why it matters. Direct.",
+  "full": "Under 600 characters. 2-3 short paragraphs. Lead with the problem, then the solution, then a closing line. No fluff.",
+  "tags": ["tag1","tag2","tag3","tag4","tag5","tag6","tag7","tag8","tag9","tag10"],
+  "details": "Website: [url]\nProduct URL: [url]\nPricing: [pricing]\nCategory: [2-3 relevant categories]\nContact: [email]"
+}
+
+Tags should be specific and searchable. Mix tool-type tags (AI Tools, Productivity) with audience tags (Solo Founder, Indie Hacker) and function tags relevant to what the product actually does.
+Never use em dashes (—) anywhere. Use a hyphen (-) if a dash is needed.
+Return only valid JSON. No preamble, no explanation.`;
+
+    try {
+      const response = await fetch('/api/generate', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          model: 'claude-sonnet-4-5',
+          max_tokens: 1000,
+          messages: [{ role: 'user', content: prompt }]
+        })
+      });
+
+      const data = await response.json();
+      const text = data.content?.[0]?.text || '';
+      const clean = text.replace(/```json|```/g, '').trim();
+      const result = JSON.parse(clean);
+
+      document.getElementById('output-product-name').textContent = name;
+      document.getElementById('out-oneliner').textContent = result.oneliner;
+      document.getElementById('out-short').textContent = result.short;
+      document.getElementById('out-full').textContent = result.full;
+      document.getElementById('out-details').textContent = result.details;
+
+      const tagsWrap = document.getElementById('out-tags');
+      tagsWrap.innerHTML = '';
+      result.tags.forEach(tag => {
+        const span = document.createElement('span');
+        span.className = 'tag';
+        span.textContent = tag;
+        tagsWrap.appendChild(span);
+      });
+
+      showState('output');
+      document.getElementById('output-panel').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    } catch (err) {
+      errEl.textContent = 'Something went wrong generating your copy. Please try again.';
+      errEl.classList.add('active');
+      showState('empty');
+    } finally {
+      document.getElementById('generate-btn').disabled = false;
+    }
+  }
+
+  function copyBlock(btn) {
+    const block = btn.closest('.copy-block');
+    const text = block.querySelector('.copy-text')?.innerText || '';
+    navigator.clipboard.writeText(text).then(() => flash(btn));
+  }
+
+  function copyTags(btn) {
+    const tags = [...document.querySelectorAll('#out-tags .tag')].map(t => t.textContent).join(', ');
+    navigator.clipboard.writeText(tags).then(() => flash(btn));
+  }
+
+  function copyAll() {
+    const sections = [
+      'ONE-LINER',
+      document.getElementById('out-oneliner').innerText,
+      '',
+      'SHORT DESCRIPTION',
+      document.getElementById('out-short').innerText,
+      '',
+      'FULL DESCRIPTION',
+      document.getElementById('out-full').innerText,
+      '',
+      'TAGS',
+      [...document.querySelectorAll('#out-tags .tag')].map(t => t.textContent).join(', '),
+      '',
+      'KEY DETAILS',
+      document.getElementById('out-details').innerText,
+    ].join('\n');
+    navigator.clipboard.writeText(sections).then(() => {
+      const btn = document.querySelector('.copy-all-btn');
+      btn.textContent = 'Copied!';
+      setTimeout(() => btn.textContent = 'Copy All', 1800);
+    });
+  }
+
+  function downloadTxt() {
+    const productName = document.getElementById('output-product-name').innerText || 'submission-copy';
+    const sections = [
+      'ONE-LINER',
+      document.getElementById('out-oneliner').innerText,
+      '',
+      'SHORT DESCRIPTION',
+      document.getElementById('out-short').innerText,
+      '',
+      'FULL DESCRIPTION',
+      document.getElementById('out-full').innerText,
+      '',
+      'TAGS',
+      [...document.querySelectorAll('#out-tags .tag')].map(t => t.textContent).join(', '),
+      '',
+      'KEY DETAILS',
+      document.getElementById('out-details').innerText,
+      '',
+      '---',
+      'Generated by Digital Operator Studio - digitaloperatorstudio.com',
+    ].join('\n');
+
+    const blob = new Blob([sections], { type: 'text/plain' });
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = `${productName.toLowerCase().replace(/\s+/g, '-')}-submission-copy.txt`;
+    a.click();
+    URL.revokeObjectURL(a.href);
+  }
+
+  function flash(btn) {
+    btn.textContent = 'Copied!';
+    btn.classList.add('copied');
+    setTimeout(() => {
+      btn.textContent = 'Copy';
+      btn.classList.remove('copied');
+    }, 1800);
+  }
+
+  // output panel starts hidden via inline style on #output-panel
+</script>
+</body>
+</html>

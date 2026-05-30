@@ -65,8 +65,14 @@
 
   .nav-links {
     display: flex;
+    align-items: center;
     gap: 2rem;
     list-style: none;
+  }
+
+  .nav-links li {
+    display: flex;
+    align-items: center;
   }
 
   .nav-links a {
@@ -564,6 +570,48 @@
     .featured-on { padding: 2rem 1.25rem; flex-direction: column; align-items: flex-start; gap: 1rem; }
     .featured-badges { gap: 1rem; }
   }
+  /* TOOLS DROPDOWN */
+  .nav-dropdown { position: relative; }
+  .nav-dropdown > a { display: flex; align-items: center; gap: 0.35rem; }
+  .nav-dropdown > a::after { content: "▾"; font-size: 0.6rem; transition: transform 0.2s; }
+  .nav-dropdown:hover > a::after { transform: rotate(180deg); }
+  .dropdown-menu {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--paper);
+    border: 1px solid var(--rule);
+    border-top: 2px solid var(--ink);
+    min-width: 220px;
+    z-index: 200;
+    padding-top: 0.75rem;
+  }
+  .dropdown-menu::before {
+    content: '';
+    position: absolute;
+    top: -0.75rem;
+    left: 0;
+    right: 0;
+    height: 0.75rem;
+  }
+  .nav-dropdown:hover .dropdown-menu { display: block; }
+  .dropdown-menu a {
+    display: block;
+    padding: 0.75rem 1rem;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.68rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--mid);
+    text-decoration: none;
+    border-bottom: 1px solid var(--rule);
+    transition: color 0.15s, background 0.15s;
+  }
+  .dropdown-menu a:last-child { border-bottom: none; }
+  .dropdown-menu a:hover { color: var(--ink); background: rgba(13,13,13,0.04); }
+  .dropdown-kit-num { display: inline-block; color: var(--accent); margin-right: 0.4rem; }
 </style>
 </head>
 <body>
@@ -572,7 +620,13 @@
 <nav>
   <a href="#" class="nav-logo">Digital Operator Studio</a>
   <ul class="nav-links">
-    <li><a href="/kit-1">Kit 01: Feedback</a></li>
+    <li class="nav-dropdown">
+      <a href="#kit-1">Tools</a>
+      <div class="dropdown-menu">
+        <a href="#kit-1"><span class="dropdown-kit-num">01</span>Feedback Synthesiser</a>
+        <a href="#kit-2"><span class="dropdown-kit-num">02</span>Launch Copy Generator</a>
+      </div>
+    </li>
     <li><a href="#how">How it works</a></li>
     <li><a href="#about">About</a></li>
     <li><a href="#contact">Contact</a></li>
@@ -585,7 +639,7 @@
   <h1 class="hero-title">AI tools<br>built for<br><em>operators</em></h1>
   <p class="hero-sub">Productised AI tools for solo founders and small SaaS teams. No fluff, no bloat - just focused tools that turn raw data into decisions.</p>
   <div class="hero-cta-row">
-    <a href="#kit-1" class="btn-primary">Analyze your feedback →</a>
+    <a href="#kit-1" class="btn-primary">Browse the kits →</a>
     <span class="hero-note">Free to use · Powered by Claude</span>
   </div>
 </section>
@@ -627,9 +681,37 @@
     </div>
   </div>
   <div class="kit-cta-row reveal">
-    <a href="https://claude.ai/public/artifacts/a30c03ba-0879-4120-bb3b-a8b7fe0539f7" target="_blank" class="btn-primary">Open in Claude →</a>
+    <a href="/kit-1" class="btn-primary">Setup guide →</a>
     <span class="kit-free-tag">Free · Bring your own Claude account</span>
-    <a href="/kit-1" style="font-family:'DM Mono',monospace;font-size:0.72rem;letter-spacing:0.06em;text-transform:uppercase;color:var(--mid);text-decoration:none;transition:color 0.2s;" onmouseover="this.style.color='var(--ink)'" onmouseout="this.style.color='var(--mid)'">Setup guide →</a>
+    <a href="https://claude.ai/public/artifacts/a30c03ba-0879-4120-bb3b-a8b7fe0539f7" target="_blank" style="font-family:'DM Mono',monospace;font-size:0.72rem;letter-spacing:0.06em;text-transform:uppercase;color:var(--mid);text-decoration:none;transition:color 0.2s;" onmouseover="this.style.color='var(--ink)'" onmouseout="this.style.color='var(--mid)'">Open in Claude →</a>
+  </div>
+</section>
+
+<!-- KIT 2 -->
+<section id="kit-2">
+  <div class="section-label">Kit 02</div>
+  <div class="kit-header">
+    <span class="kit-number">02</span>
+    <h2 class="kit-title">Launch Copy Generator</h2>
+  </div>
+  <div class="kit-grid reveal">
+    <div class="kit-cell">
+      <p class="kit-cell-label">What it does</p>
+      <p class="kit-cell-text">Takes your product details and returns submission-ready copy for every directory field - one-liner, short description, full description, tags, and key details - in under 30 seconds.</p>
+    </div>
+    <div class="kit-cell">
+      <p class="kit-cell-label">Who it's for</p>
+      <p class="kit-cell-text">Founders launching a new product or tool who need to submit to directories but don't want to write the same copy five different ways for every form.</p>
+    </div>
+    <div class="kit-cell">
+      <p class="kit-cell-label">What makes it useful</p>
+      <p class="kit-cell-text">Generates copy in every length format simultaneously, plus a curated list of the top directories to submit to - so you go straight from copy to submission.</p>
+    </div>
+  </div>
+  <div class="kit-cta-row reveal">
+    <a href="/kit-2" class="btn-primary">Setup guide →</a>
+    <span class="kit-free-tag">Free · No account needed</span>
+    <a href="/kit-2-tool" style="font-family:'DM Mono',monospace;font-size:0.72rem;letter-spacing:0.06em;text-transform:uppercase;color:var(--mid);text-decoration:none;transition:color 0.2s;" onmouseover="this.style.color='var(--ink)'" onmouseout="this.style.color='var(--mid)'">Open the tool →</a>
   </div>
 </section>
 
@@ -668,9 +750,8 @@
     <div class="reveal">
       <div class="about-aside">
         <p class="about-aside-label">Coming up</p>
-        <div class="coming-soon-item">Kit 2 (in development)</div>
         <div class="coming-soon-item">Claude Project companions for each kit</div>
-        <div class="coming-soon-item">More kits to follow</div>
+        <div class="coming-soon-item">More kits in development</div>
       </div>
     </div>
   </div>
