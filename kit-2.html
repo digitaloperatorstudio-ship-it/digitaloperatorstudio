@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Launch Copy Generator: Setup Guide — Digital Operator Studio</title>
+  <link rel="icon" type="image/x-icon" href="/favicon.ico">
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Lora:ital,wght@0,400;0,600;1,400&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --ink: #0D0D0D;
+      --paper: #F5F0E8;
+      --accent: #C8401A;
+      --mid: #6B6560;
+      --rule: rgba(13,13,13,0.15);
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: var(--paper);
+      color: var(--ink);
+      font-family: 'Lora', serif;
+      font-size: 1rem;
+      line-height: 1.7;
+    }
+
+    /* NAV */
+    nav {
+      border-bottom: 2px solid var(--ink);
+      padding: 1rem 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+    .nav-logo {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.1rem;
+      letter-spacing: 0.15em;
+      color: var(--ink);
+      text-decoration: none;
+    }
+    .nav-links {
+      display: flex;
+      gap: 1.5rem;
+      list-style: none;
+    }
+    .nav-links a {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.72rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--mid);
+      text-decoration: none;
+      transition: color 0.15s;
+    }
+    .nav-links a:hover { color: var(--accent); }
+
+    /* HERO */
+    .hero {
+      max-width: 780px;
+      margin: 0 auto;
+      padding: 4rem 2rem 2.5rem;
+      border-bottom: 1px solid var(--rule);
+    }
+    .kit-tag {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.7rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 0.75rem;
+    }
+    .hero h1 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(2.5rem, 6vw, 4rem);
+      letter-spacing: 0.03em;
+      line-height: 1;
+      margin-bottom: 1rem;
+    }
+    .hero-desc {
+      font-size: 1.05rem;
+      color: var(--mid);
+      max-width: 560px;
+      margin-bottom: 1.75rem;
+    }
+    .cta-btn {
+      display: inline-block;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1rem;
+      letter-spacing: 0.1em;
+      background: var(--ink);
+      color: var(--paper);
+      padding: 0.75rem 1.75rem;
+      text-decoration: none;
+      transition: background 0.15s;
+    }
+    .cta-btn:hover { background: var(--accent); }
+
+    /* GUIDE SECTIONS */
+    .guide-section {
+      max-width: 780px;
+      margin: 0 auto;
+      padding: 3rem 2rem;
+      border-bottom: 1px solid var(--rule);
+    }
+    .section-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.68rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 0.5rem;
+    }
+    .guide-section h2 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.9rem;
+      letter-spacing: 0.03em;
+      margin-bottom: 1.25rem;
+    }
+    .guide-section p {
+      color: var(--mid);
+      margin-bottom: 1rem;
+      max-width: 600px;
+    }
+    .guide-section p:last-child { margin-bottom: 0; }
+
+    /* WHAT YOU NEED */
+    .req-list {
+      list-style: none;
+      margin-top: 0.5rem;
+    }
+    .req-list li {
+      display: flex;
+      gap: 0.75rem;
+      align-items: baseline;
+      padding: 0.6rem 0;
+      border-bottom: 1px solid var(--rule);
+      color: var(--mid);
+    }
+    .req-list li:last-child { border-bottom: none; }
+    .req-list li::before {
+      content: '→';
+      font-family: 'DM Mono', monospace;
+      font-size: 0.8rem;
+      color: var(--accent);
+      flex-shrink: 0;
+    }
+
+    /* STEPS */
+    .steps {
+      margin-top: 1rem;
+    }
+    .step {
+      display: grid;
+      grid-template-columns: 2rem 1fr;
+      gap: 0.75rem;
+      padding: 0.85rem 0;
+      border-bottom: 1px solid var(--rule);
+      align-items: baseline;
+    }
+    .step:last-child { border-bottom: none; }
+    .step-num {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.1rem;
+      color: var(--accent);
+    }
+    .step-text {
+      font-size: 0.95rem;
+      color: var(--mid);
+    }
+    .step-text strong { color: var(--ink); }
+    .step-text a { color: var(--accent); }
+    .step-text em {
+      font-style: italic;
+      color: var(--mid);
+    }
+
+    /* FIELDS TABLE */
+    .table-wrap {
+      overflow-x: auto;
+      margin-top: 1rem;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.9rem;
+    }
+    thead tr { border-bottom: 2px solid var(--ink); }
+    th {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.68rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--mid);
+      text-align: left;
+      padding: 0.5rem 1rem 0.6rem 0;
+    }
+    td {
+      padding: 0.65rem 1rem 0.65rem 0;
+      border-bottom: 1px solid var(--rule);
+      color: var(--mid);
+      vertical-align: top;
+    }
+    td:first-child {
+      font-family: 'Lora', serif;
+      font-weight: 600;
+      color: var(--ink);
+      white-space: nowrap;
+    }
+    td code {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.8rem;
+      background: rgba(13,13,13,0.06);
+      padding: 0.1rem 0.35rem;
+    }
+
+    /* OUTPUT DEFS */
+    .def-list { margin-top: 0.5rem; }
+    .def-item {
+      padding: 0.85rem 0;
+      border-bottom: 1px solid var(--rule);
+    }
+    .def-item:last-child { border-bottom: none; }
+    .def-term {
+      font-family: 'Lora', serif;
+      font-weight: 600;
+      color: var(--ink);
+      margin-bottom: 0.25rem;
+    }
+    .def-desc { color: var(--mid); font-size: 0.95rem; }
+
+    /* TIPS */
+    .tips { margin-top: 1rem; }
+    .tip {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.78rem;
+      color: var(--mid);
+      padding: 0.5rem 0;
+      border-bottom: 1px solid var(--rule);
+      display: flex;
+      gap: 0.6rem;
+      align-items: baseline;
+    }
+    .tip:last-child { border-bottom: none; }
+    .tip::before {
+      content: '→';
+      color: var(--accent);
+      flex-shrink: 0;
+    }
+
+    /* WHAT'S NEXT */
+    .whats-next {
+      max-width: 780px;
+      margin: 0 auto;
+      padding: 3rem 2rem;
+      border-bottom: 1px solid var(--rule);
+    }
+    .whats-next h2 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.9rem;
+      letter-spacing: 0.03em;
+      margin-bottom: 0.5rem;
+    }
+    .whats-next p { color: var(--mid); margin-bottom: 1.25rem; }
+    .back-link {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.78rem;
+      letter-spacing: 0.06em;
+      color: var(--ink);
+      text-decoration: none;
+      border-bottom: 1px solid var(--ink);
+      padding-bottom: 1px;
+      transition: color 0.15s, border-color 0.15s;
+    }
+    .back-link:hover { color: var(--accent); border-color: var(--accent); }
+
+    /* FEATURED ON */
+    .featured-on {
+      max-width: 780px;
+      margin: 0 auto;
+      padding: 2rem;
+      display: flex;
+      align-items: center;
+      gap: 2rem;
+      flex-wrap: wrap;
+    }
+    .featured-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.68rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--mid);
+      flex-shrink: 0;
+    }
+    .featured-badges {
+      display: flex;
+      align-items: center;
+      gap: 1.25rem;
+      flex-wrap: wrap;
+    }
+
+    /* FOOTER */
+    footer {
+      border-top: 2px solid var(--ink);
+      padding: 1.5rem 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 1rem;
+      max-width: 100%;
+    }
+    .footer-logo {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1rem;
+      letter-spacing: 0.15em;
+    }
+    .footer-copy {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.68rem;
+      color: var(--mid);
+      letter-spacing: 0.05em;
+    }
+    .footer-contact {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.68rem;
+      color: var(--mid);
+    }
+    .footer-contact a {
+      color: var(--accent);
+      text-decoration: none;
+    }
+
+    @media (max-width: 600px) {
+      nav { padding: 1rem; }
+      .nav-links { display: none; }
+      .hero, .guide-section, .whats-next, .featured-on { padding-left: 1rem; padding-right: 1rem; }
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a class="nav-logo" href="https://www.digitaloperatorstudio.com">Digital Operator Studio</a>
+  <ul class="nav-links">
+    <li><a href="https://www.digitaloperatorstudio.com/#kit-1">Kit 01: Feedback</a></li>
+    <li><a href="https://www.digitaloperatorstudio.com/#kit-2">Kit 02: Launch Copy</a></li>
+    <li><a href="https://www.digitaloperatorstudio.com/#how">How it works</a></li>
+    <li><a href="https://www.digitaloperatorstudio.com/#about">About</a></li>
+    <li><a href="https://www.digitaloperatorstudio.com/#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="kit-tag">Kit 02</div>
+  <h1>Launch Copy Generator</h1>
+  <p class="hero-desc">Everything you need to get your product listed. The Launch Copy Generator takes your product details and returns submission-ready copy for every directory field — in under 30 seconds.</p>
+  <a class="cta-btn" href="/kit-2-tool">Open the tool →</a>
+</div>
+
+<!-- WHAT YOU NEED -->
+<div class="guide-section">
+  <span class="section-label">Before you start</span>
+  <h2>What you need</h2>
+  <ul class="req-list">
+    <li>A Claude account — free plan is fine for this tool</li>
+    <li>Your product name and a plain-language description of what it does</li>
+    <li>A rough sense of who it's for and how it's priced</li>
+    <li>Optionally: your website URL, contact email, and what makes it different</li>
+  </ul>
+</div>
+
+<!-- HOW TO USE IT -->
+<div class="guide-section">
+  <span class="section-label">Getting started</span>
+  <h2>How to use it</h2>
+  <div class="steps">
+    <div class="step">
+      <span class="step-num">1</span>
+      <p class="step-text">Open the <a href="/kit-2-tool">Launch Copy Generator</a></p>
+    </div>
+    <div class="step">
+      <span class="step-num">2</span>
+      <p class="step-text">Fill in your <strong>product name</strong> and <strong>what it does</strong> — plain language is fine, don't worry about making it sound polished</p>
+    </div>
+    <div class="step">
+      <span class="step-num">3</span>
+      <p class="step-text">Fill in the remaining fields — <strong>audience</strong>, <strong>pricing</strong>, <strong>URL</strong>, and <strong>email</strong>. The more you provide, the better the output</p>
+    </div>
+    <div class="step">
+      <span class="step-num">4</span>
+      <p class="step-text">Add a <strong>key differentiator</strong> if you have one — what makes your product different from existing tools</p>
+    </div>
+    <div class="step">
+      <span class="step-num">5</span>
+      <p class="step-text">Hit <strong>Generate Copy</strong> and wait about 10-20 seconds</p>
+    </div>
+    <div class="step">
+      <span class="step-num">6</span>
+      <p class="step-text">Review the output, then copy each block individually or <strong>Download .txt</strong> to get everything at once</p>
+    </div>
+  </div>
+</div>
+
+<!-- THE FIELDS -->
+<div class="guide-section">
+  <span class="section-label">The form</span>
+  <h2>What each field does</h2>
+  <p>The more you fill in, the more specific the output. Name and description are required — everything else improves the result.</p>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Field</th>
+          <th>What it's for</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Product name</td>
+          <td>Used in the output copy and as the filename if you download a .txt</td>
+        </tr>
+        <tr>
+          <td>What does it do?</td>
+          <td>The main input — describe what it does and who benefits. Don't worry about polish, Claude handles that</td>
+        </tr>
+        <tr>
+          <td>Who is it for?</td>
+          <td>Shapes the audience language in the copy — <em>"solo founders"</em>, <em>"freelance designers"</em>, <em>"SaaS teams"</em></td>
+        </tr>
+        <tr>
+          <td>Pricing</td>
+          <td>Included in the key details block and informs how the copy frames value</td>
+        </tr>
+        <tr>
+          <td>Website URL</td>
+          <td>Used in the key details block — the link directories will point to</td>
+        </tr>
+        <tr>
+          <td>Contact email</td>
+          <td>Included in the key details block for directory submissions that ask for it</td>
+        </tr>
+        <tr>
+          <td>Key differentiator</td>
+          <td>Optional but high value — what makes your product different. Sharpens the copy significantly</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- READING THE OUTPUT -->
+<div class="guide-section">
+  <span class="section-label">Understanding results</span>
+  <h2>Reading the output</h2>
+  <div class="def-list">
+    <div class="def-item">
+      <p class="def-term">One-liner</p>
+      <p class="def-desc">Under 150 characters. For directory fields with tight limits — taglines, search results, meta descriptions. The sharpest version of what you do.</p>
+    </div>
+    <div class="def-item">
+      <p class="def-term">Short description</p>
+      <p class="def-desc">Under 300 characters. One or two sentences. Most directory submission forms accept this length.</p>
+    </div>
+    <div class="def-item">
+      <p class="def-term">Full description</p>
+      <p class="def-desc">Under 600 characters. Three short paragraphs — the problem, the solution, a closing line. For directories with more space.</p>
+    </div>
+    <div class="def-item">
+      <p class="def-term">Tags</p>
+      <p class="def-desc">10 searchable tags mixing tool type, audience, and function. Paste them directly into directory tag fields.</p>
+    </div>
+    <div class="def-item">
+      <p class="def-term">Key details</p>
+      <p class="def-desc">A pre-formatted block with URL, pricing, category, and contact — the fields most directories ask for. Copy the whole block and paste it into a doc to work from.</p>
+    </div>
+  </div>
+</div>
+
+<!-- TIPS -->
+<div class="guide-section">
+  <span class="section-label">Getting better results</span>
+  <h2>Tips</h2>
+  <div class="tips">
+    <p class="tip">Write your description like you're explaining it to a smart friend, not a marketing team. Claude cleans it up.</p>
+    <p class="tip">The differentiator field has an outsized impact on copy quality — fill it in even if you're not sure what to write.</p>
+    <p class="tip">If the output feels generic, your description is probably too vague. Add one or two concrete things the product actually does.</p>
+    <p class="tip">You can run it multiple times with slightly different descriptions and compare — it takes seconds each time.</p>
+    <p class="tip">The Download .txt button gives you a single file with all five blocks, labelled and ready to paste into any directory form.</p>
+  </div>
+</div>
+
+<!-- WHAT'S NEXT -->
+<div class="whats-next">
+  <span class="section-label">What's next</span>
+  <h2>More kits coming</h2>
+  <p>Digital Operator Studio is a growing suite of focused AI tools for solo founders — built around the jobs that actually need doing.</p>
+  <a class="back-link" href="https://www.digitaloperatorstudio.com/">Back to the site →</a>
+  <p style="margin-top:1.5rem;font-family:'DM Mono',monospace;font-size:0.72rem;color:var(--mid);">Questions or feedback? <a href="https://www.digitaloperatorstudio.com/#contact" style="color:var(--accent);">Get in touch.</a></p>
+</div>
+
+<!-- FEATURED ON -->
+<section class="featured-on">
+  <p class="featured-label">Featured on</p>
+  <div class="featured-badges">
+    <a href="https://fazier.com" target="_blank" rel="noreferrer">
+      <img src="https://fazier.com/api/v1//public/badges/launch_badges.svg?badge_type=launched&theme=neutral" alt="Fazier badge" style="height:53px;width:auto;" />
+    </a>
+    <a href="https://peerlist.io/digitaloperator/project/feedback-synthesiser" target="_blank" rel="noreferrer">
+      <img src="https://peerlist.io/api/v1/projects/embed/PRJH9OBP7DGGKM7D81GA6O8ARKKD8E?showUpvote=true&theme=light" alt="Feedback Synthesiser on Peerlist" style="height:72px;width:auto;" />
+    </a>
+    <a href="https://www.uneed.best/tool/feedback-synthesiser" target="_blank" rel="noreferrer">
+      <img src="https://www.uneed.best/EMBED3.png" alt="Featured on Uneed" style="height:53px;width:auto;" />
+    </a>
+    <a href="https://trylaunch.ai/launch/feedback-synsthesiser" target="_blank" rel="dofollow">
+      <img src="https://trylaunch.ai/badges/badge-color.png" alt="Featured on Launch" style="height:53px;width:auto;" />
+    </a>
+  </div>
+</section>
+
+<footer>
+  <span class="footer-logo">Digital Operator Studio</span>
+  <span class="footer-copy">© 2025 Digital Operator Studio. Built with Claude.</span>
+</footer>
+
+</body>
+</html>
