@@ -1,5 +1,7 @@
 {
   "rewrites": [
-    { "source": "/kit-1", "destination": "/kit-1.html" }
+    { "source": "/kit-1", "destination": "/kit-1.html" },
+    { "source": "/kit-2", "destination": "/kit-2.html" },
+    { "source": "/kit-2-tool", "destination": "/kit-2-tool.html" }
   ]
 }
