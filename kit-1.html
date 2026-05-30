@@ -490,7 +490,7 @@
   .dropdown-menu {
     display: none;
     position: absolute;
-    top: calc(100% + 0.75rem);
+    top: 100%;
     left: 50%;
     transform: translateX(-50%);
     background: var(--paper);
@@ -498,6 +498,15 @@
     border-top: 2px solid var(--ink);
     min-width: 220px;
     z-index: 200;
+    padding-top: 0.75rem;
+  }
+  .dropdown-menu::before {
+    content: '';
+    position: absolute;
+    top: -0.75rem;
+    left: 0;
+    right: 0;
+    height: 0.75rem;
   }
   .nav-dropdown:hover .dropdown-menu { display: block; }
   .dropdown-menu a {

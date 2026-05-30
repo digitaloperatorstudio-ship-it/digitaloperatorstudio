@@ -565,26 +565,14 @@
     .featured-badges { gap: 1rem; }
   }
   /* TOOLS DROPDOWN */
-  .nav-dropdown {
-    position: relative;
-  }
-  .nav-dropdown > a {
-    display: flex;
-    align-items: center;
-    gap: 0.35rem;
-  }
-  .nav-dropdown > a::after {
-    content: "▾";
-    font-size: 0.6rem;
-    transition: transform 0.2s;
-  }
-  .nav-dropdown:hover > a::after {
-    transform: rotate(180deg);
-  }
+  .nav-dropdown { position: relative; }
+  .nav-dropdown > a { display: flex; align-items: center; gap: 0.35rem; }
+  .nav-dropdown > a::after { content: "▾"; font-size: 0.6rem; transition: transform 0.2s; }
+  .nav-dropdown:hover > a::after { transform: rotate(180deg); }
   .dropdown-menu {
     display: none;
     position: absolute;
-    top: calc(100% + 0.75rem);
+    top: 100%;
     left: 50%;
     transform: translateX(-50%);
     background: var(--paper);
@@ -592,10 +580,17 @@
     border-top: 2px solid var(--ink);
     min-width: 220px;
     z-index: 200;
+    padding-top: 0.75rem;
   }
-  .nav-dropdown:hover .dropdown-menu {
-    display: block;
+  .dropdown-menu::before {
+    content: '';
+    position: absolute;
+    top: -0.75rem;
+    left: 0;
+    right: 0;
+    height: 0.75rem;
   }
+  .nav-dropdown:hover .dropdown-menu { display: block; }
   .dropdown-menu a {
     display: block;
     padding: 0.75rem 1rem;
@@ -610,11 +605,7 @@
   }
   .dropdown-menu a:last-child { border-bottom: none; }
   .dropdown-menu a:hover { color: var(--ink); background: rgba(13,13,13,0.04); }
-  .dropdown-kit-num {
-    display: inline-block;
-    color: var(--accent);
-    margin-right: 0.4rem;
-  }
+  .dropdown-kit-num { display: inline-block; color: var(--accent); margin-right: 0.4rem; }
 </style>
 </head>
 <body>
@@ -684,9 +675,9 @@
     </div>
   </div>
   <div class="kit-cta-row reveal">
-    <a href="https://claude.ai/public/artifacts/a30c03ba-0879-4120-bb3b-a8b7fe0539f7" target="_blank" class="btn-primary">Open in Claude →</a>
+    <a href="/kit-1" class="btn-primary">Setup guide →</a>
     <span class="kit-free-tag">Free · Bring your own Claude account</span>
-    <a href="/kit-1" style="font-family:'DM Mono',monospace;font-size:0.72rem;letter-spacing:0.06em;text-transform:uppercase;color:var(--mid);text-decoration:none;transition:color 0.2s;" onmouseover="this.style.color='var(--ink)'" onmouseout="this.style.color='var(--mid)'">Setup guide →</a>
+    <a href="https://claude.ai/public/artifacts/a30c03ba-0879-4120-bb3b-a8b7fe0539f7" target="_blank" style="font-family:'DM Mono',monospace;font-size:0.72rem;letter-spacing:0.06em;text-transform:uppercase;color:var(--mid);text-decoration:none;transition:color 0.2s;" onmouseover="this.style.color='var(--ink)'" onmouseout="this.style.color='var(--mid)'">Open in Claude →</a>
   </div>
 </section>
 
@@ -712,9 +703,9 @@
     </div>
   </div>
   <div class="kit-cta-row reveal">
-    <a href="/kit-2-tool" class="btn-primary">Open the tool →</a>
+    <a href="/kit-2" class="btn-primary">Setup guide →</a>
     <span class="kit-free-tag">Free · No account needed</span>
-    <a href="/kit-2" style="font-family:'DM Mono',monospace;font-size:0.72rem;letter-spacing:0.06em;text-transform:uppercase;color:var(--mid);text-decoration:none;transition:color 0.2s;" onmouseover="this.style.color='var(--ink)'" onmouseout="this.style.color='var(--mid)'">Setup guide →</a>
+    <a href="/kit-2-tool" style="font-family:'DM Mono',monospace;font-size:0.72rem;letter-spacing:0.06em;text-transform:uppercase;color:var(--mid);text-decoration:none;transition:color 0.2s;" onmouseover="this.style.color='var(--ink)'" onmouseout="this.style.color='var(--mid)'">Open the tool →</a>
   </div>
 </section>
 
