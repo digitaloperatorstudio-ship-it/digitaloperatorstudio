@@ -624,7 +624,10 @@ Return only valid JSON. No preamble, no explanation.`;
       document.getElementById('out-oneliner').textContent = result.oneliner;
       document.getElementById('out-short').textContent = result.short;
       document.getElementById('out-full').textContent = result.full;
-      document.getElementById('out-details').textContent = result.details;
+      document.getElementById('out-details').innerHTML = result.details
+        .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+        .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+        .replace(/\n/g, '<br>');
       document.getElementById('out-tagline').textContent = result.tagline;
 
       const compWrap = document.getElementById('out-competitors');
