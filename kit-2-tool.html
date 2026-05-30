@@ -435,6 +435,18 @@
         <div class="copy-text" id="out-details"></div>
       </div>
 
+      <div class="copy-block">
+        <h3>Tagline <span style="color:var(--ink);opacity:0.4">- under 60 chars</span></h3>
+        <button class="copy-btn" onclick="copyBlock(this)">Copy</button>
+        <div class="copy-text" id="out-tagline"></div>
+      </div>
+
+      <div class="copy-block">
+        <h3>Competitor angles <span style="color:var(--ink);opacity:0.4">- your edge</span></h3>
+        <button class="copy-btn" onclick="copyCompetitors(this)">Copy</button>
+        <div id="out-competitors" style="margin-top:0.25rem;display:flex;flex-direction:column;gap:0.6rem"></div>
+      </div>
+
       <div class="copy-block" style="border-left-color:var(--accent)">
         <h3>Where to submit <span style="color:var(--ink);opacity:0.4">- top directories</span></h3>
         <div style="margin-top:0.5rem;display:flex;flex-direction:column;gap:0">
@@ -446,17 +458,17 @@
           <div class="dir-row" style="display:grid;grid-template-columns:140px 1fr auto;gap:0.5rem 1rem;align-items:baseline;padding:0.55rem 0;border-bottom:1px solid var(--rule)">
             <a href="https://theresanaiforthat.com/submit/" target="_blank" class="dir-link">There's An AI For That</a>
             <span class="dir-note">Largest AI-specific directory. Millions of monthly visitors.</span>
-            <span class="dir-free">Free</span>
+            <span class="dir-free">Paid</span>
           </div>
           <div class="dir-row" style="display:grid;grid-template-columns:140px 1fr auto;gap:0.5rem 1rem;align-items:baseline;padding:0.55rem 0;border-bottom:1px solid var(--rule)">
             <a href="https://www.futurepedia.io/submit-tool" target="_blank" class="dir-link">Futurepedia</a>
             <span class="dir-note">High DA, AI-focused. Strong for long-tail discovery.</span>
-            <span class="dir-free">Free</span>
+            <span class="dir-free">Paid</span>
           </div>
           <div class="dir-row" style="display:grid;grid-template-columns:140px 1fr auto;gap:0.5rem 1rem;align-items:baseline;padding:0.55rem 0;border-bottom:1px solid var(--rule)">
             <a href="https://www.toolify.ai/submit" target="_blank" class="dir-link">Toolify.ai</a>
             <span class="dir-note">Large AI directory with a PH-style launch feature.</span>
-            <span class="dir-free">Free</span>
+            <span class="dir-free">Paid</span>
           </div>
           <div class="dir-row" style="display:grid;grid-template-columns:140px 1fr auto;gap:0.5rem 1rem;align-items:baseline;padding:0.55rem 0;border-bottom:1px solid var(--rule)">
             <a href="https://www.futuretools.io/submit-a-tool" target="_blank" class="dir-link">FutureTools</a>
@@ -466,7 +478,7 @@
           <div class="dir-row" style="display:grid;grid-template-columns:140px 1fr auto;gap:0.5rem 1rem;align-items:baseline;padding:0.55rem 0;border-bottom:1px solid var(--rule)">
             <a href="https://listmyai.net/submit" target="_blank" class="dir-link">ListMyAI</a>
             <span class="dir-note">Fast-growing, quality-curated. Good backlink value.</span>
-            <span class="dir-free">Free</span>
+            <span class="dir-free">Paid</span>
           </div>
           <div class="dir-row" style="display:grid;grid-template-columns:140px 1fr auto;gap:0.5rem 1rem;align-items:baseline;padding:0.55rem 0;border-bottom:1px solid var(--rule)">
             <a href="https://peerlist.io/tools/new" target="_blank" class="dir-link">Peerlist</a>
@@ -579,11 +591,13 @@ Product details:
 
 Generate exactly this JSON structure, nothing else, no markdown:
 {
+  "tagline": "Under 60 characters. Punchy. Leads with the problem. No hype.",
   "oneliner": "Under 150 characters. Punchy. What it does and who it's for. No hype words.",
   "short": "Under 300 characters. One or two sentences. What it does, who it's for, why it matters. Direct.",
   "full": "Under 600 characters. 2-3 short paragraphs. Lead with the problem, then the solution, then a closing line. No fluff.",
   "tags": ["tag1","tag2","tag3","tag4","tag5","tag6","tag7","tag8","tag9","tag10"],
-  "details": "Website: [url]\nProduct URL: [url]\nPricing: [pricing]\nCategory: [2-3 relevant categories]\nContact: [email]"
+  "details": "**Website:** [url]\n**Product URL:** [url]\n**Pricing:** [pricing]\n**Category:** [2-3 relevant categories]\n**Contact:** [email]",
+  "competitors": [{"name": "Competitor Name", "reason": "One sentence on why someone might choose this product over them."}, {"name": "Competitor Name", "reason": "One sentence on why someone might choose this product over them."}, {"name": "Competitor Name", "reason": "One sentence on why someone might choose this product over them."}]
 }
 
 Tags should be specific and searchable. Mix tool-type tags (AI Tools, Productivity) with audience tags (Solo Founder, Indie Hacker) and function tags relevant to what the product actually does.
@@ -611,6 +625,23 @@ Return only valid JSON. No preamble, no explanation.`;
       document.getElementById('out-short').textContent = result.short;
       document.getElementById('out-full').textContent = result.full;
       document.getElementById('out-details').textContent = result.details;
+      document.getElementById('out-tagline').textContent = result.tagline;
+
+      const compWrap = document.getElementById('out-competitors');
+      compWrap.innerHTML = '';
+      (result.competitors || []).forEach(comp => {
+        const div = document.createElement('div');
+        div.style.cssText = 'font-size:0.85rem;line-height:1.55;color:var(--ink)';
+        const strong = document.createElement('strong');
+        strong.style.cssText = "font-family:'DM Mono',monospace;font-size:0.78rem";
+        strong.textContent = comp.name;
+        const span = document.createElement('span');
+        span.style.color = 'var(--mid)';
+        span.textContent = ' - ' + comp.reason;
+        div.appendChild(strong);
+        div.appendChild(span);
+        compWrap.appendChild(div);
+      });
 
       const tagsWrap = document.getElementById('out-tags');
       tagsWrap.innerHTML = '';
@@ -643,8 +674,16 @@ Return only valid JSON. No preamble, no explanation.`;
     navigator.clipboard.writeText(tags).then(() => flash(btn));
   }
 
+  function copyCompetitors(btn) {
+    const items = [...document.querySelectorAll('#out-competitors > div')].map(d => d.innerText).join('\n');
+    navigator.clipboard.writeText(items).then(() => flash(btn));
+  }
+
   function copyAll() {
     const sections = [
+      'TAGLINE',
+      document.getElementById('out-tagline').innerText,
+      '',
       'ONE-LINER',
       document.getElementById('out-oneliner').innerText,
       '',
@@ -659,6 +698,9 @@ Return only valid JSON. No preamble, no explanation.`;
       '',
       'KEY DETAILS',
       document.getElementById('out-details').innerText,
+      '',
+      'COMPETITOR ANGLES',
+      [...document.querySelectorAll('#out-competitors > div')].map(d => d.innerText).join('\n'),
     ].join('\n');
     navigator.clipboard.writeText(sections).then(() => {
       const btn = document.querySelector('.copy-all-btn');
@@ -670,6 +712,9 @@ Return only valid JSON. No preamble, no explanation.`;
   function downloadTxt() {
     const productName = document.getElementById('output-product-name').innerText || 'submission-copy';
     const sections = [
+      'TAGLINE',
+      document.getElementById('out-tagline').innerText,
+      '',
       'ONE-LINER',
       document.getElementById('out-oneliner').innerText,
       '',
@@ -684,6 +729,9 @@ Return only valid JSON. No preamble, no explanation.`;
       '',
       'KEY DETAILS',
       document.getElementById('out-details').innerText,
+      '',
+      'COMPETITOR ANGLES',
+      [...document.querySelectorAll('#out-competitors > div')].map(d => d.innerText).join('\n'),
       '',
       '---',
       'Generated by Digital Operator Studio - digitaloperatorstudio.com',
