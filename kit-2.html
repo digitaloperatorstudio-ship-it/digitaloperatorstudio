@@ -337,6 +337,40 @@
       .nav-links { display: none; }
       .hero, .guide-section, .whats-next, .featured-on { padding-left: 1rem; padding-right: 1rem; }
     }
+
+    /* TOOLS DROPDOWN */
+    .nav-dropdown { position: relative; }
+    .nav-dropdown > a { display: flex; align-items: center; gap: 0.35rem; }
+    .nav-dropdown > a::after { content: "▾"; font-size: 0.6rem; transition: transform 0.2s; }
+    .nav-dropdown:hover > a::after { transform: rotate(180deg); }
+    .dropdown-menu {
+      display: none;
+      position: absolute;
+      top: calc(100% + 0.75rem);
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--paper);
+      border: 1px solid var(--rule);
+      border-top: 2px solid var(--ink);
+      min-width: 220px;
+      z-index: 200;
+    }
+    .nav-dropdown:hover .dropdown-menu { display: block; }
+    .dropdown-menu a {
+      display: block;
+      padding: 0.75rem 1rem;
+      font-family: 'DM Mono', monospace;
+      font-size: 0.68rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--mid);
+      text-decoration: none;
+      border-bottom: 1px solid var(--rule);
+      transition: color 0.15s, background 0.15s;
+    }
+    .dropdown-menu a:last-child { border-bottom: none; }
+    .dropdown-menu a:hover { color: var(--ink); background: rgba(13,13,13,0.04); }
+    .dropdown-kit-num { display: inline-block; color: var(--accent); margin-right: 0.4rem; }
   </style>
 </head>
 <body>
@@ -344,8 +378,13 @@
 <nav>
   <a class="nav-logo" href="https://www.digitaloperatorstudio.com">Digital Operator Studio</a>
   <ul class="nav-links">
-    <li><a href="https://www.digitaloperatorstudio.com/#kit-1">Kit 01: Feedback</a></li>
-    <li><a href="https://www.digitaloperatorstudio.com/#kit-2">Kit 02: Launch Copy</a></li>
+    <li class="nav-dropdown">
+      <a href="https://www.digitaloperatorstudio.com/#kit-1">Tools</a>
+      <div class="dropdown-menu">
+        <a href="https://www.digitaloperatorstudio.com/#kit-1"><span class="dropdown-kit-num">01</span>Feedback Synthesiser</a>
+        <a href="https://www.digitaloperatorstudio.com/#kit-2"><span class="dropdown-kit-num">02</span>Launch Copy Generator</a>
+      </div>
+    </li>
     <li><a href="https://www.digitaloperatorstudio.com/#how">How it works</a></li>
     <li><a href="https://www.digitaloperatorstudio.com/#about">About</a></li>
     <li><a href="https://www.digitaloperatorstudio.com/#contact">Contact</a></li>
